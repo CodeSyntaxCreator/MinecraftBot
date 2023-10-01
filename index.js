@@ -1,4 +1,6 @@
 const mineflayer = require('mineflayer')
+const { pathfinder, Movements, goals: { GoalNear } } = require('mineflayer-pathfinder')
+
 
 const bot = mineflayer.createBot({
   host: 'localhost', // minecraft server ip
