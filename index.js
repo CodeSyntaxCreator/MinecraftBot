@@ -22,3 +22,6 @@ const { mineflayer: mineflayerViewer } = require('prismarine-viewer')
 bot.once('spawn', () => {
   mineflayerViewer(bot, { port: 25565, firstPerson: true }) // port is the minecraft server port, if first person is false, you get a bird's-eye view
 })
+
+bot.chat("Hello I can chat")
+bot.chat("Mineflayer POG")
