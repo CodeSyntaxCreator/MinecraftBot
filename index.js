@@ -15,16 +15,16 @@ const bot = mineflayer.createBot({
 
 
 //Pathfinder
-const RANGE_GOAL = 1 // get within this radius of the player
+const RANGE_GOAL = 1 // get within this radius of the location
 
 bot.loadPlugin(pathfinder)
 
 bot.once('spawn', () => {
   const defaultMove = new Movements(bot)
-    const { x: playerX, y: playerY, z: playerZ } = target.position
+    const { x: X, y: Y, z: Z } = target.position
 
     bot.pathfinder.setMovements(defaultMove)
-    bot.pathfinder.setGoal(new GoalNear(playerX, playerY, playerZ, RANGE_GOAL))
+    bot.pathfinder.setGoal(new GoalNear(X, Y, Z, RANGE_GOAL))
   })
 
   //Inventory Viewer
