@@ -4,6 +4,7 @@ const mineflayer = require('mineflayer')
 const { pathfinder, Movements, goals: { GoalNear } } = require('mineflayer-pathfinder')
 const inventoryViewer = require('mineflayer-web-inventory')
 const armorManager = require("mineflayer-armor-manager");
+const autoeat = require('mineflayer-auto-eat').plugin
 
 // Bot configuration
 const bot = mineflayer.createBot({
@@ -33,4 +34,16 @@ inventoryViewer(bot, options)
 //Armor Manager
 bot.loadPlugin(armorManager)
 bot.once("spawn", () => bot.armorManager.equipAll());
+//Auto-eat
+bot.loadPlugin(autoeat)
+
+bot.on('autoeat_started', (item, offhand) => {
+    console.log(`Eating ${item.name} in ${offhand ? 'offhand' : 'hand'}`)
+})
+
+bot.on('autoeat_finished', (item, offhand) => {
+    console.log(`Finished eating ${item.name} in ${offhand ? 'offhand' : 'hand'}`)
+})
+
+bot.on('autoeat_error', console.error)
 
