@@ -3,6 +3,7 @@
 const mineflayer = require('mineflayer')
 const { pathfinder, Movements, goals: { GoalNear } } = require('mineflayer-pathfinder')
 const inventoryViewer = require('mineflayer-web-inventory')
+const armorManager = require("mineflayer-armor-manager");
 
 // Bot configuration
 const bot = mineflayer.createBot({
@@ -25,7 +26,11 @@ bot.once('spawn', () => {
 
     bot.pathfinder.setMovements(defaultMove)
     bot.pathfinder.setGoal(new GoalNear(X, Y, Z, RANGE_GOAL))
-  })
+})
 
-  //Inventory Viewer
-  inventoryViewer(bot, options)
+//Inventory Viewer
+inventoryViewer(bot, options)
+//Armor Manager
+bot.loadPlugin(armorManager)
+bot.once("spawn", () => bot.armorManager.equipAll());
+
