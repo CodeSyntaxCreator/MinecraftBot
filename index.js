@@ -1,29 +1,26 @@
+//Run - node index.js
+
 const mineflayer = require('mineflayer')
 const { pathfinder, Movements, goals: { GoalNear } } = require('mineflayer-pathfinder')
 
-
 const bot = mineflayer.createBot({
-  host: 'localhost', // minecraft server ip
-  username: 'Bot', // username or email, switch if you want to change accounts
-  auth: 'microsoft', // for offline mode servers, you can set this to 'offline'
-  port: 25565,                // only set if you need a port that isn't 25565
-  version: false,             // only set if you need a specific version or snapshot (ie: "1.8.9" or "1.16.5"), otherwise it's set automatically
-  password: '12345678'        // set if you want to use password-based auth (may be unreliable). If specified, the `username` must be an email
+  host: '',
+  port: '',
+  username: '',
+  password: '',
+  auth: 'microsoft' // for offline mode servers, you can set this to 'offline'
 })
 
-bot.on('chat', (username, message) => {
-  if (username === bot.username) return
-  bot.chat(message)
-})
+const RANGE_GOAL = 1 // get within this radius of the player
 
-// Log errors and kick reasons:
-bot.on('kicked', console.log)
-bot.on('error', console.log)
+bot.loadPlugin(pathfinder)
 
-const { mineflayer: mineflayerViewer } = require('prismarine-viewer')
 bot.once('spawn', () => {
-  mineflayerViewer(bot, { port: 25565, firstPerson: true }) // port is the minecraft server port, if first person is false, you get a bird's-eye view
-})
+  const defaultMove = new Movements(bot)
+    const { x: playerX, y: playerY, z: playerZ } = target.position
 
-bot.chat("Hello I can chat")
-bot.chat("Mineflayer POG")
+    bot.pathfinder.setMovements(defaultMove)
+    bot.pathfinder.setGoal(new GoalNear(playerX, playerY, playerZ, RANGE_GOAL))
+  })
+
+  
