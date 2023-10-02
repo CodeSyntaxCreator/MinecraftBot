@@ -18,11 +18,17 @@ const bot = mineflayer.createBot({
   auth: 'microsoft' // for offline mode servers, you can set this to 'offline'
 })
 
+//Load Plugins
+bot.loadPlugin(pathfinder)
+bot.loadPlugin(inventoryViewer)
+bot.loadPlugin(armorManager)
+bot.loadPlugin(autoCrystal)
+bot.loadPlugin(autoeat)
+bot.loadPlugin(toolPlugin)
 
 //Pathfinder
 const RANGE_GOAL = 1 // get within this radius of the location
 
-bot.loadPlugin(pathfinder)
 
 bot.once('spawn', () => {
   const defaultMove = new Movements(bot)
@@ -33,12 +39,10 @@ bot.once('spawn', () => {
 })
 
 //Inventory Viewer
-inventoryViewer(bot, options)
+inventoryViewer(bot)
 //Armor Manager
-bot.loadPlugin(armorManager)
 bot.once("spawn", () => bot.armorManager.equipAll());
 //Auto-eat
-bot.loadPlugin(autoeat)
 
 bot.on('autoeat_started', (item, offhand) => {
     console.log(`Eating ${item.name} in ${offhand ? 'offhand' : 'hand'}`)
@@ -52,7 +56,6 @@ bot.on('autoeat_error', console.error)
 
 //Auto Crystal 
 
-bot.loadPlugin(autoCrystal)
 bot.once('spawn', () => {
   bot.autoCrystal.options.logErrors = true
   console.clear()
@@ -100,4 +103,12 @@ bot.on('chat', async (username, message) => {
 })
 
 // Auto tool
+
+bot.on('spawn', async () => {
+  const blockPos = bot.entity.position.offset(0, -1, 0)
+  const block = bot.blockAt(blockPos)
+
+  await bot.tool.equipForBlock(block, {})
+  await bot.dig(block)
+ })
 
