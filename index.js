@@ -5,6 +5,8 @@ const { pathfinder, Movements, goals: { GoalNear } } = require('mineflayer-pathf
 const inventoryViewer = require('mineflayer-web-inventory')
 const armorManager = require("mineflayer-armor-manager");
 const autoeat = require('mineflayer-auto-eat').plugin
+const { autoCrystal } = require('../lib/index')
+
 
 // Bot configuration
 const bot = mineflayer.createBot({
@@ -46,4 +48,55 @@ bot.on('autoeat_finished', (item, offhand) => {
 })
 
 bot.on('autoeat_error', console.error)
+
+//Auto Crystal 
+
+bot.loadPlugin(autoCrystal)
+bot.once('spawn', () => {
+  bot.autoCrystal.options.logErrors = true
+  console.clear()
+  console.log('Spawned.')
+  bot.chat('/gamemode creative')
+  bot.chat('/give @s end_crystal 500')
+})
+
+bot.on('end', () => {
+  main()
+})
+
+bot.on('kicked', (reason) => {
+  console.log(reason)
+  main()
+})
+
+bot.on('error', (reason) => {
+  console.error(reason)
+  main()
+})
+
+bot.on('chat', async (username, message) => {
+  if (username === bot.username) return
+
+  switch (message) {
+    case 'start':
+      bot.chat('AutoCrystal enabled.')
+      await bot.autoCrystal.enable()
+      break
+
+    case 'stop':
+      bot.chat('AutoCrystal disabled.')
+      await bot.autoCrystal.disable()
+      break
+
+    case 'holes':
+      const holes = await bot.autoCrystal.getHoles()
+      bot.chat(`Found ${holes.length} holes made out of bedrock.`)
+      break
+
+    default:
+      break
+  }
+})
+
+// Auto tool
 
