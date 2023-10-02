@@ -6,6 +6,7 @@ const inventoryViewer = require('mineflayer-web-inventory')
 const armorManager = require("mineflayer-armor-manager");
 const autoeat = require('mineflayer-auto-eat').plugin
 const { autoCrystal } = require('../lib/index')
+const toolPlugin = require('mineflayer-tool').plugin
 
 
 // Bot configuration
